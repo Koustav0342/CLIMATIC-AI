@@ -1,0 +1,4303 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ClimateAI - Advanced Climate Dashboard</title>
+
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- LEAFLET CSS -->
+
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<!-- FONT AWESOME -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <title>Futuristic AI Chatbot</title>
+  <link rel="stylesheet" href="style.css" />
+
+<style>
+
+/* ================= GLOBAL ================= */
+ 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#04110b;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* ================= SCROLLBAR ================= */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#18ff9c;
+    border-radius:20px;
+}
+
+/* ================= BACKGROUND ================= */
+
+.bg{
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    overflow:hidden;
+}
+
+.bg span{
+    position:absolute;
+    width:25px;
+    height:25px;
+    background:#18ff9c;
+    opacity:0.15;
+    border-radius:50%;
+    animation:float 18s linear infinite;
+}
+
+.bg span:nth-child(1){left:10%;animation-duration:12s;}
+.bg span:nth-child(2){left:25%;animation-duration:18s;}
+.bg span:nth-child(3){left:40%;animation-duration:14s;}
+.bg span:nth-child(4){left:60%;animation-duration:20s;}
+.bg span:nth-child(5){left:80%;animation-duration:16s;}
+.bg span:nth-child(6){left:90%;animation-duration:22s;}
+
+@keyframes float{
+
+    0%{
+        transform:translateY(100vh) rotate(0deg);
+    }
+
+    100%{
+        transform:translateY(-120vh) rotate(720deg);
+    }
+
+}
+
+
+/* ================= MODERN NAVBAR ================= */
+
+#navbar{
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:999;
+    transition:0.4s;
+    background:rgba(0,0,0,0.25);
+    backdrop-filter:blur(20px);
+}
+
+.navbar{
+    width:90%;
+    margin:auto;
+    padding:18px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:32px;
+    font-weight:800;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo i{
+    color:#18ff9c;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+    list-style:none;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:white;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.nav-links a:hover{
+    color:#18ff9c;
+}
+
+.nav-action-btn{
+    padding:12px 28px;
+    border:none;
+    border-radius:40px;
+    background:linear-gradient(45deg,#18ff9c,#00bfff);
+    color:black;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.4s;
+}
+
+.nav-action-btn:hover{
+    transform:scale(1.08);
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:60px;
+    padding:140px 10%;
+    position:relative;
+}
+
+.hero::before{
+    content:'';
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:#18ff9c22;
+    border-radius:50%;
+    filter:blur(120px);
+    top:10%;
+    left:10%;
+    z-index:-1;
+}
+
+.hero-badge{
+    display:inline-block;
+    padding:12px 22px;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:40px;
+    margin-bottom:30px;
+    color:#18ff9c;
+} 
+
+.hero-text h1{
+    font-size:82px;
+    line-height:1.1;
+    margin-bottom:30px;
+}
+
+.typing{
+    color:#18ff9c;
+    text-shadow:0 0 20px #18ff9c;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:20px;
+    margin-top:30px;
+    flex-wrap:wrap;
+}
+
+.secondary-btn{
+    padding:17px 38px;
+    border-radius:50px;
+    background:transparent;
+    border:1px solid #18ff9c;
+    color:#18ff9c;
+    cursor:pointer;
+    transition:0.4s;
+}
+
+.secondary-btn:hover{
+    background:#18ff9c;
+    color:black;
+}
+
+.hero-stats{
+    display:flex;
+    gap:20px;
+    margin-top:50px;
+    flex-wrap:wrap;
+}
+
+.stat-card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    padding:25px;
+    border-radius:25px;
+    min-width:150px;
+    text-align:center;
+    transition:0.4s;
+}
+
+.stat-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 0 30px rgba(24,255,156,0.3);
+}
+
+.stat-card h2{
+    color:#18ff9c;
+    margin-bottom:10px;
+}
+
+.hero-image{
+    position:relative;
+}
+
+.image-glow{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:#18ff9c44;
+    filter:blur(100px);
+    z-index:-1;
+}
+
+.hero-image img{
+    width:100%;
+    max-width:580px;
+    border-radius:40px;
+    animation:floatImage 5s ease-in-out infinite;
+}
+
+@keyframes floatImage{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-20px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .hero{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .hero-text h1{
+        font-size:55px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .nav-links{
+        display:none;
+    }
+
+}
+
+/* ================= SECTION ================= */
+
+.section{
+    padding:100px 10%;
+}
+
+.section-title{
+    text-align:center;
+    font-size:55px;
+    margin-bottom:20px;
+}
+
+.section-title span{
+    color:#18ff9c;
+}
+
+.section-subtitle{
+    text-align:center;
+    color:#cfcfcf;
+    max-width:750px;
+    margin:auto;
+    margin-bottom:60px;
+    line-height:1.9;
+}
+
+/* ================= FUTURISTIC SEARCH BOX ================= */
+
+.search-box{
+
+    max-width:950px;
+
+    margin:auto;
+
+    margin-top:40px;
+
+    display:flex;
+
+    gap:20px;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+}
+
+/* ================= AI INPUT FIELD ================= */
+
+.search-box input{
+
+    flex:1;
+
+    min-width:320px;
+
+    padding:22px 28px;
+
+    border-radius:22px;
+
+    border:1px solid rgba(255,255,255,0.12);
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(0,255,255,0.08),
+        rgba(0,102,255,0.05),
+        rgba(179,0,255,0.08)
+    );
+
+    backdrop-filter:blur(16px);
+
+    color:white;
+
+    font-size:18px;
+
+    outline:none;
+
+    transition:0.4s ease;
+
+    box-shadow:
+    0 0 15px rgba(0,255,255,0.12),
+    inset 0 0 12px rgba(255,255,255,0.03);
+
+    animation:inputPulse 3s infinite alternate;
+}
+
+/* ================= PLACEHOLDER ================= */
+
+.search-box input::placeholder{
+
+    color:rgba(255,255,255,0.65);
+
+    letter-spacing:1px;
+}
+
+/* ================= INPUT FOCUS ================= */
+
+.search-box input:focus{
+
+    transform:translateY(-3px) scale(1.01);
+
+    border:1px solid #00ffff;
+
+    box-shadow:
+    0 0 20px rgba(0,255,255,0.35),
+    0 0 50px rgba(0,102,255,0.15);
+}
+
+/* ================= AI BUTTON ================= */
+
+.search-box button{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:22px 38px;
+
+    border:none;
+
+    border-radius:22px;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    color:white;
+
+    cursor:pointer;
+
+    background:
+    linear-gradient(
+        135deg,
+        #00ffff,
+        #0066ff,
+        #b300ff
+    );
+
+    background-size:300% 300%;
+
+    animation:buttonGradient 6s ease infinite;
+
+    transition:0.4s ease;
+
+    box-shadow:
+    0 0 20px rgba(0,255,255,0.25),
+    0 0 40px rgba(0,102,255,0.18);
+}
+
+/* ================= BUTTON LIGHT WAVE ================= */
+
+.search-box button::before{
+
+    content:'';
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:60%;
+
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.4),
+        transparent
+    );
+
+    transform:skewX(-25deg);
+
+    animation:buttonWave 3s linear infinite;
+}
+
+/* ================= BUTTON HOVER ================= */
+
+.search-box button:hover{
+
+    transform:
+    translateY(-5px)
+    scale(1.04);
+
+    box-shadow:
+    0 0 30px rgba(0,255,255,0.45),
+    0 0 70px rgba(179,0,255,0.25);
+}
+
+/* ================= INPUT PULSE ================= */
+
+@keyframes inputPulse{
+
+    from{
+
+        box-shadow:
+        0 0 10px rgba(0,255,255,0.10);
+    }
+
+    to{
+
+        box-shadow:
+        0 0 20px rgba(0,255,255,0.22),
+        0 0 40px rgba(0,102,255,0.10);
+    }
+
+}
+
+/* ================= BUTTON GRADIENT ================= */
+
+@keyframes buttonGradient{
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+    100%{
+        background-position:0% 50%;
+    }
+
+}
+
+/* ================= BUTTON LIGHT WAVE ================= */
+
+@keyframes buttonWave{
+
+    0%{
+        left:-120%;
+    }
+
+    100%{
+        left:150%;
+    }
+
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+    .search-box{
+
+        flex-direction:column;
+    }
+
+    .search-box input{
+
+        width:100%;
+    }
+
+    .search-box button{
+
+        width:100%;
+    }
+
+}
+
+/* ================= CARDS LAYOUT ================= */
+
+.cards{
+
+    margin-top:50px;
+
+    display:grid;
+
+    /* 3 BOXES PER ROW */
+    grid-template-columns:repeat(3,1fr);
+
+    gap:22px;
+}
+
+/* ================= FUTURISTIC AI DASHBOARD CARDS ================= */
+
+.card,
+.extra-card,
+.news-card,
+.status-box,
+.impact-card,
+.contact-box{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(0,255,255,0.08),
+        rgba(0,102,255,0.06),
+        rgba(179,0,255,0.08)
+    );
+
+    border:1px solid rgba(255,255,255,0.10);
+
+    border-radius:24px;
+
+    /* SMALLER SIZE */
+    padding:24px;
+
+    min-height:180px;
+
+    text-align:center;
+
+    backdrop-filter:blur(14px);
+
+    transition:0.5s ease;
+
+    transform-style:preserve-3d;
+
+    box-shadow:
+    0 0 12px rgba(0,255,255,0.15),
+    0 0 25px rgba(0,102,255,0.10);
+
+    animation:
+    cardFloat 5s ease-in-out infinite,
+    neonPulse 3s infinite alternate;
+}
+
+/* ================= ROTATING GLOW ================= */
+
+.card::before,
+.extra-card::before,
+.news-card::before,
+.status-box::before,
+.impact-card::before,
+.contact-box::before{
+
+    content:'';
+
+    position:absolute;
+
+    width:300%;
+
+    height:300%;
+
+    background:conic-gradient(
+        from 0deg,
+        #00ffff,
+        #0066ff,
+        #b300ff,
+        #00ff99,
+        #00ffff
+    );
+
+    top:-100%;
+
+    left:-100%;
+
+    opacity:0.08;
+
+    animation:rotateGradient 8s linear infinite;
+}
+
+/* ================= GLASS EFFECT ================= */
+
+.card::after,
+.extra-card::after,
+.news-card::after,
+.status-box::after,
+.impact-card::after,
+.contact-box::after{
+
+    content:'';
+
+    position:absolute;
+
+    inset:2px;
+
+    border-radius:20px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(0,0,0,0.60),
+        rgba(0,0,0,0.25)
+    );
+
+    z-index:1;
+}
+
+/* KEEP CONTENT ABOVE */
+
+.card *,
+.extra-card *,
+.news-card *,
+.status-box *,
+.impact-card *,
+.contact-box *{
+
+    position:relative;
+
+    z-index:2;
+}
+
+/* ================= HOVER 3D ================= */
+
+.card:hover,
+.extra-card:hover,
+.news-card:hover,
+.status-box:hover,
+.impact-card:hover,
+.contact-box:hover{
+
+    transform:
+    perspective(1000px)
+    rotateX(5deg)
+    rotateY(-5deg)
+    translateY(-10px)
+    scale(1.02);
+
+    box-shadow:
+    0 0 20px rgba(0,255,255,0.25),
+    0 0 40px rgba(0,102,255,0.18),
+    0 0 70px rgba(179,0,255,0.10);
+}
+
+/* ================= ICON ================= */
+
+.card i{
+
+    font-size:38px;
+
+    color:#00ffff;
+
+    margin-bottom:16px;
+
+    text-shadow:
+    0 0 10px #00ffff,
+    0 0 20px #00ffff;
+}
+
+/* ================= TITLES ================= */
+
+.card h2,
+.extra-card h2,
+.news-card h2,
+.impact-card h2{
+
+    font-size:22px;
+
+    color:#00ffff;
+
+    text-shadow:
+    0 0 10px #00ffff;
+
+    margin-bottom:12px;
+}
+
+/* ================= VALUES ================= */
+
+.value{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:white;
+
+    text-shadow:
+    0 0 10px rgba(255,255,255,0.4);
+}
+
+/* ================= EXTRA TEXT ================= */
+
+.extra-card p{
+
+    font-size:18px;
+
+    color:#ffffff;
+}
+
+/* ================= FLOATING ================= */
+
+@keyframes cardFloat{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-6px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+/* ================= NEON PULSE ================= */
+
+@keyframes neonPulse{
+
+    from{
+
+        box-shadow:
+        0 0 8px rgba(0,255,255,0.12),
+        0 0 18px rgba(0,102,255,0.08);
+    }
+
+    to{
+
+        box-shadow:
+        0 0 18px rgba(0,255,255,0.25),
+        0 0 40px rgba(0,102,255,0.15),
+        0 0 60px rgba(179,0,255,0.08);
+    }
+
+}
+
+/* ================= ROTATING GLOW ================= */
+
+@keyframes rotateGradient{
+
+    100%{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:992px){
+
+    .cards{
+
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:768px){
+
+    .cards{
+
+        grid-template-columns:1fr;
+    }
+
+}
+/* ================= PULSE LIGHT WAVE ================= */
+
+.card .pulse-wave,
+.extra-card .pulse-wave{
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:60%;
+
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.05),
+        rgba(0,255,255,0.30),
+        rgba(255,255,255,0.05),
+        transparent
+    );
+
+    transform:skewX(-25deg);
+
+    animation:pulseWave 4s linear infinite;
+
+    z-index:2;
+
+    pointer-events:none;
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes pulseWave{
+
+    0%{
+        left:-120%;
+    }
+
+    100%{
+        left:160%;
+    }
+
+}
+
+/* ================= BUTTON PANEL ================= */
+
+.button-panel{
+    margin-top:60px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:22px;
+}
+
+.action-btn{
+    padding:22px;
+    border:none;
+    border-radius:20px;
+    background:rgba(255,255,255,0.06);
+    color:white;
+    cursor:pointer;
+    font-size:17px;
+    transition:0.4s;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.action-btn:hover{
+    background:#18ff9c;
+    color:black;
+    transform:scale(1.05);
+}
+
+/* ================= STATUS BAR ================= */
+
+.live-status{
+    margin-top:90px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+}
+
+.progress-bar{
+    width:100%;
+    height:20px;
+    background:rgba(255,255,255,0.1);
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:20px;
+}
+
+.progress-fill{
+    width:0%;
+    height:100%;
+    background:#18ff9c;
+    box-shadow:0 0 20px #18ff9c;
+    transition:1s;
+}
+
+.status-box p{
+    margin-top:15px;
+    font-size:28px;
+    color:#18ff9c;
+}
+
+/* SECTION */
+
+.earth-section{
+    width:100%;
+    height:100vh;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+
+/* TITLES */
+
+.earth-title{
+    position:absolute;
+    top:40px;
+    font-size:70px;
+    font-weight:bold;
+    color:#00ffb3;
+    text-shadow:
+    0 0 20px #00ffb3,
+    0 0 40px #00ffb3;
+    z-index:10;
+}
+
+.earth-subtitle{
+    position:absolute;
+    top:130px;
+    font-size:24px;
+    color:white;
+    opacity:0.8;
+    z-index:10;
+}
+/* CANVAS */
+
+#earth-container{
+    width:100%;
+    height:100vh;
+}
+
+
+/* GLOW EFFECT */
+
+.glow{
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(
+        circle,
+        rgba(0,255,180,0.35),
+        transparent 70%
+    );
+
+    filter:blur(60px);
+    animation:pulse 4s infinite alternate;
+}
+
+
+@keyframes pulse{
+
+    from{
+        transform:scale(1);
+        opacity:0.6;
+    }
+
+    to{
+        transform:scale(1.3);
+        opacity:1;
+    }
+}
+
+
+/* ================= NEWS ================= */
+
+.news-section{
+    margin-top:110px;
+}
+
+.news-section h1{
+    text-align:center;
+    margin-bottom:50px;
+    font-size:50px;
+}
+
+.news-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+/* ================= CHATBOT ================= */
+
+body{
+  margin:0;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  color:#eaf2ff;
+  min-height:100vh;
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(124,58,237,.18), transparent 25%),
+    radial-gradient(circle at 80% 25%, rgba(34,211,238,.16), transparent 22%),
+    radial-gradient(circle at 50% 80%, rgba(251,113,133,.10), transparent 28%),
+    linear-gradient(135deg, #03050c 0%, #071024 50%, #04060f 100%);
+}
+
+.hero-head{
+  text-align:center;
+  max-width:1100px;
+  margin: 24px auto 18px;
+  padding: 26px 24px;
+  border-radius:28px;
+  background: rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 0 30px rgba(124,58,237,.12);
+}
+
+.hero-kicker{
+  margin:0 0 10px;
+  font-size:12px;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:#8bdcff;
+}
+
+.hero-title{
+  margin:0;
+  font-size: clamp(2rem, 6vw, 4.8rem);
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  background: linear-gradient(90deg, #ffffff, #7c3aed, #06b6d4, #ffffff);
+  background-size: 300% 300%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation: titleMove 6s linear infinite;
+  text-shadow:0 0 20px rgba(124,58,237,.25);
+}
+
+.hero-subtitle{
+  margin:14px auto 0;
+  max-width:760px;
+  color:#cbd5e1;
+  line-height:1.7;
+  font-size:14px;
+}
+
+@keyframes titleMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+.chat-shell{
+  width:min(1100px, calc(100vw - 28px));
+  margin: 0 auto 20px;
+  border-radius:28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+  overflow:hidden;
+}
+
+.chat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:18px 20px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(7,10,22,.4);
+}
+
+.bot-profile{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.bot-profile h3{
+  margin:0;
+  font-size:16px;
+}
+
+.bot-profile span{
+  color:#94a3c7;
+  font-size:12px;
+}
+
+.chat-badges{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.chat-badges span{
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.08);
+  font-size:12px;
+  color:#d8e7ff;
+}
+
+.orb{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, #fff, #a855f7 18%, #06b6d4 45%, #0b1020 72%);
+  box-shadow:0 0 24px rgba(168,85,247,.7), 0 0 56px rgba(6,182,212,.3);
+  animation: floatOrb 4.5s ease-in-out infinite;
+}
+
+@keyframes floatOrb{
+  0%,100%{transform:translateY(0) rotateX(8deg)}
+  50%{transform:translateY(-10px) rotateX(-8deg)}
+}
+
+.chat-window{
+  height: min(55vh, 560px);
+  padding:20px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.message{
+  max-width:78%;
+  padding:14px 16px;
+  border-radius:18px;
+  line-height:1.5;
+  font-size:14px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.bot{
+  background:rgba(255,255,255,.06);
+  border-bottom-left-radius:6px;
+}
+
+.user{
+  margin-left:auto;
+  background:linear-gradient(135deg, rgba(124,58,237,.42), rgba(34,211,238,.26));
+  border-bottom-right-radius:6px;
+}
+
+.quick-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  padding:0 20px 18px;
+}
+
+.quick-row button{
+  border:none;
+  padding:12px 14px;
+  border-radius:14px;
+  cursor:pointer;
+  color:#fff;
+  font-weight:600;
+  background:linear-gradient(180deg, rgba(124,58,237,.22), rgba(6,182,212,.10));
+  border:1px solid rgba(255,255,255,.10);
+  transition:.25s ease;
+}
+
+.quick-row button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 18px rgba(124,58,237,.2);
+}
+
+.composer{
+  display:flex;
+  gap:10px;
+  padding:18px 20px 20px;
+  background:rgba(7,10,22,.45);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.composer input{
+  flex:1;
+  border:none;
+  outline:none;
+  padding:14px 16px;
+  border-radius:16px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  color:#fff;
+}
+
+.voice-btn,.send-btn{
+  width:54px;
+  height:54px;
+  border:none;
+  border-radius:16px;
+  cursor:pointer;
+  color:#fff;
+  transition:.25s ease;
+}
+
+.voice-btn{
+  background:linear-gradient(135deg,#7c3aed,#06b6d4);
+  box-shadow:0 0 16px rgba(124,58,237,.3);
+}
+
+.send-btn{
+  background:linear-gradient(135deg,#22c55e,#06b6d4);
+  box-shadow:0 0 16px rgba(34,211,238,.25);
+}
+
+.voice-btn:hover,.send-btn:hover{
+  transform:translateY(-2px) scale(1.03);
+}
+.advanced-toolbar{
+  display:grid;
+  grid-template-columns:repeat(9,44px);
+  gap:10px;
+  justify-content:center;
+  padding:16px 20px;
+  background:rgba(255,255,255,.03);
+  border-top:1px solid rgba(255,255,255,.08);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  overflow-x:auto;
+}
+
+.adv-btn{
+  width:44px;
+  height:44px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.10);
+  color:#eaf2ff;
+  font-size:18px;
+  transition:.25s ease;
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.adv-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 0 1px rgba(34,211,238,.15), 0 0 18px rgba(124,58,237,.25);
+}
+
+.adv-btn.active{
+  background:linear-gradient(135deg, rgba(124,58,237,.45), rgba(34,211,238,.25));
+  box-shadow:0 0 14px rgba(124,58,237,.4);
+}
+
+/* Light theme class */
+body.light-theme{
+  background:linear-gradient(135deg, #f1f5f9, #e2e8f0);
+}
+
+body.light-theme .chat-shell,
+body.light-theme .hero-head{
+  background:rgba(255,255,255,.7);
+  color:#0f172a;
+}
+
+body.light-theme .message.bot{
+  background:rgba(0,0,0,.05);
+  color:#0f172a;
+}
+
+body.light-theme .message.user{
+  background:linear-gradient(135deg, rgba(124,58,237,.35), rgba(34,211,238,.20));
+  color:#0f172a;
+}
+/* ================= CLOCK ================= */
+
+.clock-container{
+    margin-top:110px;
+    text-align:center;
+}
+
+.clock-container h1{
+    margin-bottom:20px;
+}
+
+#clock{
+    font-size:65px;
+    color:#18ff9c;
+    text-shadow:0 0 25px #18ff9c;
+}
+
+/* ================= GLOBAL IMPACT ================= */
+
+.global-impact{
+    margin-top:120px;
+}
+
+.global-impact h1{
+    text-align:center;
+    font-size:55px;
+    margin-bottom:20px;
+}
+
+.impact-subtitle{
+    text-align:center;
+    color:#cfcfcf;
+    margin-bottom:60px;
+}
+
+.impact-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:28px;
+}
+
+.impact-number{
+    font-size:48px;
+    font-weight:bold;
+    color:#18ff9c;
+    margin:25px 0;
+    text-shadow:0 0 20px #18ff9c;
+}
+/* ================= SATELLITE MAP ================= */
+
+.satellite-section{
+    padding:120px 10%;
+}
+
+.map-wrapper{
+    width:100%;
+    height:600px;
+    border-radius:30px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 0 30px rgba(24,255,156,0.2);
+}
+
+#satelliteMap{
+    width:100%;
+    height:100%;
+}
+/* ================= ISRO SATELLITE ================= */
+.monitor-grid{
+
+    width:90%;
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:40px;
+
+    position:relative;
+
+    z-index:20;
+
+    /* PERFECT POSITION */
+    transform:translateY(-330px);
+}
+
+/* ================= ANIMATED FUTURISTIC NEON BOX ================= */
+
+.monitor-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:30px;
+
+    min-height:220px;
+
+    border-radius:30px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(0,255,255,0.12),
+        rgba(0,102,255,0.10),
+        rgba(179,0,255,0.12)
+    );
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    box-shadow:
+    0 0 15px rgba(0,255,255,0.25),
+    0 0 30px rgba(0,102,255,0.18),
+    inset 0 0 10px rgba(255,255,255,0.04);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    transition:0.5s ease;
+
+    transform-style:preserve-3d;
+
+    animation:
+orbitFloat 5s ease-in-out infinite,
+neonPulse 3s infinite alternate;
+}
+
+/* ================= ROTATING GRADIENT ================= */
+
+.monitor-card::before{
+
+    content:'';
+
+    position:absolute;
+
+    width:300%;
+
+    height:300%;
+
+    background:conic-gradient(
+        from 0deg,
+        #00ffff,
+        #0066ff,
+        #b300ff,
+        #00ff99,
+        #00ffff
+    );
+
+    top:-100%;
+
+    left:-100%;
+
+    animation:rotateGradient 8s linear infinite;
+
+    opacity:0.12;
+}
+
+/* ================= GLASS EFFECT ================= */
+
+.monitor-card::after{
+
+    content:'';
+
+    position:absolute;
+
+    inset:3px;
+
+    border-radius:26px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(0,0,0,0.6),
+        rgba(0,0,0,0.25)
+    );
+
+    z-index:1;
+}
+
+/* CONTENT */
+
+.monitor-card h2,
+.monitor-card p{
+
+    position:relative;
+
+    z-index:2;
+}
+
+/* ================= TITLE ================= */
+
+.monitor-card h2{
+
+    font-size:22px;
+
+    margin-bottom:12px;
+
+    color:#00ffff;
+
+    text-shadow:
+    0 0 8px #00ffff,
+    0 0 20px #00ffff,
+    0 0 40px #00ffff;
+
+    animation:textGlow 2s infinite alternate;
+}
+
+/* ================= TEXT ================= */
+
+.monitor-card p{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:white;
+
+    line-height:1.5;
+
+    text-shadow:
+    0 0 10px rgba(255,255,255,0.4);
+}
+
+/* ================= HOVER 3D EFFECT ================= */
+
+.monitor-card:hover{
+
+    transform:
+    perspective(1000px)
+    rotateX(8deg)
+    rotateY(-8deg)
+    translateY(-12px)
+    scale(1.03);
+
+    box-shadow:
+    0 0 25px rgba(0,255,255,0.4),
+    0 0 60px rgba(0,102,255,0.3),
+    0 0 90px rgba(179,0,255,0.2);
+}
+
+/* ================= FLOAT ANIMATION ================= */
+
+@keyframes floating{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+/* ================= ORBIT FLOAT ================= */
+
+@keyframes orbitFloat{
+
+    0%{
+
+        transform:
+        translateY(0px)
+        rotateZ(0deg);
+
+    }
+
+    25%{
+
+        transform:
+        translateY(-8px)
+        rotateZ(1deg);
+
+    }
+
+    50%{
+
+        transform:
+        translateY(-14px)
+        rotateZ(0deg);
+
+    }
+
+    75%{
+
+        transform:
+        translateY(-8px)
+        rotateZ(-1deg);
+
+    }
+
+    100%{
+
+        transform:
+        translateY(0px)
+        rotateZ(0deg);
+
+    }
+
+}
+
+/* ================= NEON PULSE ================= */
+
+@keyframes neonPulse{
+
+    from{
+
+        box-shadow:
+        0 0 10px rgba(0,255,255,0.2),
+        0 0 20px rgba(0,102,255,0.15);
+    }
+
+    to{
+
+        box-shadow:
+        0 0 25px rgba(0,255,255,0.35),
+        0 0 50px rgba(0,102,255,0.25),
+        0 0 80px rgba(179,0,255,0.15);
+    }
+
+}
+
+/* ================= ROTATING GLOW ================= */
+
+@keyframes rotateGradient{
+
+    100%{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* ================= TEXT GLOW ================= */
+
+@keyframes textGlow{
+
+    from{
+        text-shadow:
+        0 0 5px #00ffff,
+        0 0 15px #00ffff;
+    }
+
+    to{
+        text-shadow:
+        0 0 12px #00ffff,
+        0 0 25px #00ffff,
+        0 0 45px #00ffff;
+    }
+
+}
+/* ================= MOVING LIGHT WAVE EFFECT ================= */
+
+.monitor-card .light-wave{
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:60%;
+
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.08),
+        rgba(0,255,255,0.35),
+        rgba(255,255,255,0.08),
+        transparent
+    );
+
+    transform:skewX(-25deg);
+
+    animation:lightWave 4s linear infinite;
+
+    z-index:2;
+
+    pointer-events:none;
+}
+
+/* ================= WAVE ANIMATION ================= */
+
+@keyframes lightWave{
+
+    0%{
+        left:-120%;
+    }
+
+    100%{
+        left:160%;
+    }
+
+}
+
+
+/* ================= FIX EARTH SECTION HEIGHT ================= */
+
+.earth-section{
+
+    width:100%;
+
+    min-height:220vh;   /* INCREASE HEIGHT */
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    padding-top:120px;
+
+    padding-bottom:120px;
+}
+.aurora{
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:45vh;
+
+    pointer-events:none;
+
+    overflow:hidden;
+
+    z-index:5;
+}
+
+.aurora::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180%;
+
+    height:100%;
+
+    left:-40%;
+
+    top:-10%;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(0,255,150,0.25),
+        rgba(0,255,255,0.18),
+        rgba(100,0,255,0.20),
+        rgba(0,255,150,0.25),
+        transparent
+    );
+
+    filter:blur(80px);
+
+    animation:
+    auroraMove 12s ease-in-out infinite,
+    auroraGlow 6s ease-in-out infinite;
+}
+
+@keyframes auroraMove{
+
+    0%{
+        transform:translateX(-5%) rotate(-3deg);
+    }
+
+    50%{
+        transform:translateX(5%) rotate(3deg);
+    }
+
+    100%{
+        transform:translateX(-5%) rotate(-3deg);
+    }
+
+}
+
+@keyframes auroraGlow{
+
+    0%{
+        opacity:0.3;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0.3;
+    }
+
+}
+#earth-container{
+    position:relative;
+    z-index:2;
+}
+
+.aurora{
+    z-index:10;
+}
+/* ================= OCEAN TRACKING SECTION ================= */
+.ocean-section{
+  position:relative;
+  padding:120px 5% 100px;
+  overflow:hidden;
+}
+
+.ocean-glow{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,255,255,0.10), transparent 28%),
+    radial-gradient(circle at 80% 25%, rgba(0,102,255,0.14), transparent 25%),
+    radial-gradient(circle at 50% 80%, rgba(179,0,255,0.10), transparent 30%);
+  filter:blur(20px);
+  z-index:0;
+}
+
+.ocean-title,.ocean-subtitle,.ocean-search,.ocean-focus,.ocean-tabs{
+  position:relative;
+  z-index:2;
+}
+
+.ocean-title{
+  text-align:center;
+  font-size:clamp(2.4rem,5vw,4.2rem);
+  margin-bottom:12px;
+}
+
+.ocean-title span{
+  color:#00ffff;
+  text-shadow:0 0 18px #00ffff, 0 0 40px #0066ff;
+}
+
+.ocean-subtitle{
+  text-align:center;
+  color:rgba(255,255,255,0.75);
+  margin-bottom:36px;
+}
+
+.ocean-search{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:34px;
+}
+
+.ocean-search input{
+  width:min(680px, 100%);
+  min-width:280px;
+  padding:18px 20px;
+  border-radius:18px;
+  border:1px solid rgba(0,255,255,0.18);
+  background:linear-gradient(145deg, rgba(0,255,255,0.08), rgba(0,102,255,0.06), rgba(179,0,255,0.08));
+  color:#fff;
+  outline:none;
+  box-shadow:0 0 18px rgba(0,255,255,0.14);
+}
+
+.ocean-search button{
+  padding:18px 26px;
+  border:none;
+  border-radius:18px;
+  background:linear-gradient(135deg, #00ffff, #0066ff, #b300ff);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 0 18px rgba(0,255,255,0.22);
+}
+
+.ocean-focus{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:28px;
+  align-items:center;
+  max-width:1300px;
+  margin:0 auto;
+}
+
+.ocean-radar{
+  width:280px;
+  height:280px;
+  border-radius:50%;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,102,255,0.10);
+  border:2px solid rgba(0,255,255,0.35);
+  box-shadow:0 0 40px rgba(0,102,255,0.25), inset 0 0 20px rgba(0,255,255,0.18);
+  transform-style:preserve-3d;
+  animation:oceanFloat 5s ease-in-out infinite;
+}
+
+.radar-circle{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  border:1px solid rgba(0,255,255,0.45);
+  opacity:0;
+  animation:waveExpand 3s linear infinite;
+}
+
+.delay-1{ animation-delay:1s; }
+.delay-2{ animation-delay:2s; }
+
+.radar-scanner{
+  position:absolute;
+  width:55%;
+  height:55%;
+  top:0;
+  left:50%;
+  transform-origin:bottom left;
+  background:linear-gradient(45deg, rgba(0,255,255,0.55), transparent);
+  border-radius:100% 0 0 0;
+  animation:radarScan 2.6s linear infinite;
+}
+
+.radar-icon{
+  z-index:2;
+  font-size:56px;
+  color:#00ffff;
+  text-shadow:0 0 18px #00ffff, 0 0 38px #00ffff;
+}
+
+.ocean-main-card{
+  position:relative;
+  overflow:hidden;
+  padding:28px;
+  border-radius:28px;
+  background:linear-gradient(145deg, rgba(0,255,255,0.09), rgba(0,102,255,0.07), rgba(179,0,255,0.09));
+  border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter:blur(16px);
+  box-shadow:0 0 18px rgba(0,255,255,0.18);
+}
+
+.ocean-main-card::before{
+  content:"";
+  position:absolute;
+  inset:-60px;
+  background:conic-gradient(from 0deg, #00ffff, #0066ff, #b300ff, #00ff99, #00ffff);
+  opacity:0.08;
+  animation:rotateGlow 8s linear infinite;
+}
+
+.ocean-main-card > *{
+  position:relative;
+  z-index:1;
+}
+
+.ocean-main-card h2{
+  margin:0 0 8px;
+  font-size:2rem;
+  color:#00ffff;
+  text-shadow:0 0 12px #00ffff;
+}
+
+.ocean-main-card p{
+  margin:0 0 22px;
+  color:rgba(255,255,255,0.78);
+}
+
+.ocean-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:16px;
+}
+
+.ocean-card{
+  position:relative;
+  overflow:hidden;
+  padding:18px;
+  border-radius:20px;
+  background:rgba(0,0,0,0.28);
+  border:1px solid rgba(0,255,255,0.12);
+  box-shadow:0 0 12px rgba(0,255,255,0.10);
+  transform-style:preserve-3d;
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+
+.ocean-card:hover{
+  transform:perspective(900px) rotateX(8deg) rotateY(-8deg) translateY(-4px);
+  box-shadow:0 0 24px rgba(0,255,255,0.22), 0 0 50px rgba(0,102,255,0.14);
+}
+
+.ocean-card i{
+  font-size:28px;
+  color:#00ffff;
+  text-shadow:0 0 12px #00ffff;
+  margin-bottom:10px;
+}
+
+.ocean-card h3{
+  margin:0 0 8px;
+  font-size:1rem;
+  color:#dffcff;
+}
+
+.ocean-val{
+  margin:0;
+  font-size:1.6rem;
+  font-weight:800;
+  color:#fff;
+  text-shadow:0 0 10px rgba(255,255,255,0.45);
+}
+
+.ocean-tabs{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:12px;
+  max-width:1300px;
+  margin:26px auto 0;
+}
+
+.ocean-tab{
+  padding:14px 12px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.10);
+  background:rgba(255,255,255,0.05);
+  color:#fff;
+  cursor:pointer;
+  transition:.3s ease;
+}
+
+.ocean-tab:hover,.ocean-tab.active{
+  background:linear-gradient(135deg, rgba(0,255,255,0.22), rgba(0,102,255,0.18), rgba(179,0,255,0.18));
+  box-shadow:0 0 20px rgba(0,255,255,0.18);
+  transform:translateY(-3px);
+}
+
+.flash{
+  color:#00ffff !important;
+  text-shadow:0 0 18px #00ffff, 0 0 36px #00ffff !important;
+}
+
+@keyframes waveExpand{
+  0%{ transform:scale(.2); opacity:1; }
+  100%{ transform:scale(1.6); opacity:0; }
+}
+
+@keyframes radarScan{
+  0%{ transform:rotate(0deg); }
+  100%{ transform:rotate(360deg); }
+}
+
+@keyframes rotateGlow{
+  0%{ transform:rotate(0deg); }
+  100%{ transform:rotate(360deg); }
+}
+
+@keyframes oceanFloat{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-10px); }
+}
+
+@media (max-width: 992px){
+  .ocean-focus{
+    grid-template-columns:1fr;
+    justify-items:center;
+  }
+  .ocean-grid{
+    grid-template-columns:1fr;
+  }
+  .ocean-tabs{
+    grid-template-columns:repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px){
+  .ocean-radar{
+    width:220px;
+    height:220px;
+  }
+  .ocean-tabs{
+    grid-template-columns:1fr;
+  }
+}
+.ocean-section::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:45%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(0,255,255,0.06),
+    rgba(0,255,255,0.18),
+    rgba(255,255,255,0.08),
+    transparent
+  );
+  transform:skewX(-25deg);
+  animation:oceanSectionScan 6s linear infinite;
+  z-index:1;
+  pointer-events:none;
+}
+
+@keyframes oceanSectionScan{
+  0%{ left:-120%; }
+  100%{ left:170%; }
+}
+/* ================= CONTACT ================= */
+
+.contact-section{
+    margin-top:120px;
+}
+
+.contact-section h1{
+    text-align:center;
+    font-size:55px;
+    margin-bottom:20px;
+}
+
+.contact-subtitle{
+    text-align:center;
+    color:#cfcfcf;
+    margin-bottom:60px;
+}
+
+.contact-container{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+}
+
+.contact-info{
+    display:grid;
+    gap:25px;
+}
+
+.contact-box i{
+    font-size:45px;
+    color:#18ff9c;
+    margin-bottom:15px;
+}
+
+.contact-form{
+    background:rgba(255,255,255,0.05);
+    border-radius:30px;
+    padding:35px;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.contact-form input,
+.contact-form textarea{
+    width:100%;
+    padding:18px;
+    margin-bottom:20px;
+    border:none;
+    border-radius:16px;
+    background:#111;
+    color:white;
+    outline:none;
+}
+
+.contact-form textarea{
+    height:160px;
+    resize:none;
+}
+
+.contact-form button{
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:16px;
+    background:#18ff9c;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.4s;
+}
+
+.contact-form button:hover{
+    transform:scale(1.03);
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    padding:45px;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,0.08);
+    background:rgba(0,0,0,0.35);
+    margin-top:100px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .contact-container{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .hero{
+        text-align:center;
+    }
+
+    .hero-text h1{
+        font-size:48px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .section-title,
+    .global-impact h1,
+    .contact-section h1{
+        font-size:40px;
+    }
+
+    #clock{
+        font-size:42px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+
+<div class="bg">
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+</div>
+<!-- ================= MODERN NAVBAR ================= -->
+
+<header id="navbar">
+
+<div class="navbar">
+
+<div class="logo">
+<i class="fa-solid fa-earth-asia"></i>
+Climate<span>AI</span>
+</div>
+
+<ul class="nav-links">
+
+<li><a href="#home">Home</a></li>
+<li><a href="#dashboard">Dashboard</a></li>
+<li><a href="#global">Global Impact</a></li>
+<li><a href="#contact">Contact</a></li>
+
+</ul>
+
+<div class="nav-btn">
+<button class="nav-action-btn">
+Live Data
+</button>
+</div>
+
+</div>
+
+</header>
+
+<!-- ================= HERO SECTION ================= -->
+
+<section class="hero" id="home">
+
+<div class="hero-text">
+
+<div class="hero-badge">
+🌍 AI Powered Climate Intelligence
+</div>
+
+<h1>
+Building A
+<span class="typing"></span>
+Future
+</h1>
+
+<p>
+Advanced AI climate intelligence platform delivering
+real-time weather analytics, pollution monitoring,
+renewable energy insights and environmental forecasting
+for a sustainable world.
+</p>
+
+<div class="hero-buttons">
+
+<button class="btn" onclick="showWelcome()">
+Launch Dashboard
+</button>
+
+<button class="secondary-btn">
+Explore APIs
+</button>
+
+</div>
+
+<!-- HERO STATS -->
+
+<div class="hero-stats">
+
+<div class="stat-card">
+<h2 id="liveTemp">--°C</h2>
+<p>Global Temp</p>
+</div>
+
+<div class="stat-card">
+<h2 id="liveAQI">--</h2>
+<p>Air Quality</p>
+</div>
+
+<div class="stat-card">
+<h2 id="liveWind">-- km/h</h2>
+<p>Wind Speed</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- HERO IMAGE -->
+
+<div class="hero-image">
+
+<div class="image-glow"></div>
+
+<img src="https://images.unsplash.com/photo-1473773508845-188df298d2d1?q=80&w=1200&auto=format&fit=crop">
+
+</div>
+
+</section>
+
+
+</section>
+<!-- DASHBOARD -->
+
+<section class="section" id="dashboard">
+
+<h2 class="section-title">
+AI Climate <span>Dashboard</span>
+</h2>
+
+<p class="section-subtitle">
+Analyze any city or village and generate live AI environmental insights instantly.
+</p>
+
+<div class="search-box">
+
+<input
+type="text"
+id="locationInput"
+placeholder="Enter Area Name...">
+
+<button
+class="btn"
+onclick="generateClimateData()">
+
+Analyze Area
+
+</button>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+<div class="pulse-wave"></div>
+<i class="fa-solid fa-temperature-high"></i>
+<h2>Temperature</h2>
+<div class="value" id="temp">--°C </div>
+</div>
+
+<div class="card">
+<div class="pulse-wave"></div>    
+<i class="fa-solid fa-wind"></i>
+<h2>Air Quality</h2>
+<div class="value" id="aqi">--</div>
+</div>
+
+<div class="card">
+<div class="pulse-wave"></div>
+<i class="fa-solid fa-tree"></i>
+<h2>Tree Count</h2>
+<div class="value" id="trees">--</div>
+</div>
+
+<div class="card">
+<div class="pulse-wave"></div>
+<i class="fa-solid fa-cloud-rain"></i>
+<h2>Rainfall</h2>
+<div class="value" id="rainfall">-- mm</div>
+</div>
+
+<div class="card">
+<div class="pulse-wave"></div>
+<i class="fa-solid fa-water"></i>
+<h2>Humidity</h2>
+<div class="value" id="humidity">-- %</div>
+</div>
+
+<div class="card">
+<div class="pulse-wave"></div>
+<i class="fa-solid fa-leaf"></i>
+<h2>Biodiversity</h2>
+<div class="value" id="bio">--</div>
+</div>
+
+</div>
+
+<div id="extraData" class="cards"></div>
+<!-- FEATURES -->
+
+<div class="button-panel">
+
+<button class="action-btn" onclick="ecoTips()">🌱 Eco Tips</button>
+
+<button class="action-btn" onclick="pollutionAlert()">🚨 Pollution Alert</button>
+
+<button class="action-btn" onclick="waterConservation()">💧 Water Saving</button>
+
+<button class="action-btn" onclick="energyUsage()">⚡ Energy Analysis</button>
+
+<button class="action-btn" onclick="wildlifeDetection()">🐦 Wildlife Detection</button>
+
+<button class="action-btn" onclick="greenScore()">📊 Green Score</button>
+
+<button class="action-btn" onclick="getLiveLocationClimate()">
+📍 Live Location Climate
+</button>
+
+</div>
+
+<!-- ================= OCEAN TRACKING SECTION ================= -->
+<section class="ocean-section" id="ocean-tracking">
+  <div class="ocean-glow"></div>
+
+  <h1 class="ocean-title">Live <span>Ocean Tracking</span></h1>
+  <p class="ocean-subtitle">Search any ocean and monitor live-like changing marine conditions.</p>
+
+  <div class="ocean-search">
+    <input id="oceanSearch" type="text" placeholder="Search an ocean: Pacific, Atlantic, Indian, Southern, Arctic" />
+    <button onclick="searchOcean()">Track Ocean</button>
+  </div>
+
+  <div class="ocean-focus">
+    <div class="ocean-radar">
+      <div class="radar-circle"></div>
+      <div class="radar-circle delay-1"></div>
+      <div class="radar-circle delay-2"></div>
+      <div class="radar-scanner"></div>
+      <i class="fa-solid fa-satellite-dish radar-icon"></i>
+    </div>
+
+    <div class="ocean-main-card">
+      <h2 id="activeOceanName">Pacific Ocean</h2>
+      <p id="activeOceanStatus">Scanning live marine conditions...</p>
+
+      <div class="ocean-grid">
+        <div class="ocean-card">
+          <i class="fa-solid fa-water"></i>
+          <h3>Wave Height</h3>
+          <p class="ocean-val" id="waveHeight">-- m</p>
+        </div>
+
+        <div class="ocean-card">
+          <i class="fa-solid fa-temperature-arrow-down"></i>
+          <h3>Ocean Temp</h3>
+          <p class="ocean-val" id="oceanTemp">-- °C</p>
+        </div>
+
+        <div class="ocean-card">
+          <i class="fa-solid fa-wind"></i>
+          <h3>Current Speed</h3>
+          <p class="ocean-val" id="currentSpeed">-- km/h</p>
+        </div>
+
+        <div class="ocean-card">
+          <i class="fa-solid fa-flask"></i>
+          <h3>Salinity</h3>
+          <p class="ocean-val" id="salinity">-- ppt</p>
+        </div>
+
+        <div class="ocean-card">
+          <i class="fa-solid fa-droplet"></i>
+          <h3>Sea Surface</h3>
+          <p class="ocean-val" id="seaSurface">--</p>
+        </div>
+
+        <div class="ocean-card">
+          <i class="fa-solid fa-bolt"></i>
+          <h3>Storm Index</h3>
+          <p class="ocean-val" id="stormIndex">--</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ocean-tabs" id="oceanTabs"></div>
+</section>
+
+<!-- CHATBOT -->
+<div class="hero-head">
+  <p class="hero-kicker">AI • CLIMATE • WEATHER • SPACE</p>
+  <h1 class="hero-title">NEBULA CLIMATE AI</h1>
+  <p class="hero-subtitle">
+    A futuristic assistant for climate alerts, weather data, satellite insights, and earthquake monitoring.
+  </p>
+</div>
+
+<div class="chat-shell">
+  <div class="chat-top">
+    <div class="bot-profile">
+      <div class="orb"></div>
+      <div>
+        <h3>Orbital Assistant</h3>
+        <span>Online • Voice Enabled</span>
+      </div>
+    </div>
+
+    <div class="chat-badges">
+      <span>Live</span>
+      <span>Secure</span>
+      <span>Offline AI</span>
+    </div>
+  </div>
+  <div class="advanced-toolbar">
+  <button class="adv-btn" onclick="toggleTheme()" title="Theme">🌓</button>
+  <button class="adv-btn" onclick="newChat()" title="New Chat">➕</button>
+  <button class="adv-btn" onclick="clearChat()" title="Clear">🗑️</button>
+  <button class="adv-btn" onclick="exportChat()" title="Export">📥</button>
+  <button class="adv-btn" onclick="shareChat()" title="Share">🔗</button>
+  <button class="adv-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+  <button class="adv-btn" onclick="toggleSettings()" title="Settings">⚙️</button>
+  <button class="adv-btn" onclick="toggleNotifications()" title="Notifications">🔔</button>
+  <button class="adv-btn" onclick="toggleAIFast()" title="AI Fast Mode">⚡</button>
+</div>
+
+  <div class="chat-window" id="chatWindow"></div>
+
+  <div class="quick-row">
+    <button onclick="addPreset('Show weather')">Weather</button>
+    <button onclick="addPreset('Climate alerts')">Climate</button>
+    <button onclick="addPreset('Satellite data')">Satellite</button>
+    <button onclick="addPreset('Earthquake monitor')">Earthquake</button>
+  </div>
+
+  <div class="composer">
+    <input id="input" placeholder="Ask anything about climate, weather, or safety..." />
+    <button onclick="toggleVoice()" class="voice-btn" id="voiceBtn">🎙️</button>
+    <button onclick="sendMessage()" class="send-btn">➤</button>
+  </div>
+</div>
+
+<!-- ================= ISRO LIVE SATELLITE SECTION ================= -->
+
+<section class="earth-section">
+<div class="glow"></div>
+
+<h1 class="earth-title">
+🛰 ISRO LIVE SATELLITE
+</h1>
+
+<p class="earth-subtitle">
+Advanced AI Climate Monitoring System
+</p>
+<div class="aurora"></div>
+<div id="earth-container"></div>
+
+<!-- LIVE MONITOR PANELS -->
+
+<div class="monitor-grid">
+
+<div class="monitor-card">
+<div class="light-wave"></div>
+<h2>🌧 Rainfall Tracking</h2>
+<p id="rainPlace">Loading...</p>
+<p id="rainAmount">120 mm - 250 mm</p>
+</div>
+
+<div class="monitor-card">
+<div class="light-wave"></div>   
+<h2>🌀 Cyclone Monitoring</h2>
+<p id="cyclonePlace">Loading...</p>
+<p id="cycloneSpeed">140 km/h</p>
+</div>
+
+<div class="monitor-card">
+<div class="light-wave"></div>   
+<h2>🌍 Earthquake Detection</h2>
+<p id="quakePlace">Loading...</p>
+<p id="earthquakePower">4.5 PSI</p>
+</div>
+
+<div class="monitor-card">
+<div class="light-wave"></div>    
+<h2>🐅 Wildlife Scanner</h2>
+<p id="wildPlace">Loading...</p>
+<p id="wildlifeCount">Population : 18</p>
+
+</div>
+
+<div class="monitor-card">
+<div class="light-wave"></div>    
+<h2>🌊 Flood Prone Areas</h2>
+<p id="floodPlace">Loading...</p>
+</div>
+
+<div class="monitor-card">
+<div class="light-wave"></div>    
+<h2>🔥 Hottest Regions</h2>
+<p id="hotPlace">Loading...</p>
+</div>
+
+<div class="monitor-card">
+<div class="light-wave"></div>    
+<h2>🏭 Pollution Regions</h2>
+<p id="pollutionPlace">Loading...</p>
+</div>
+
+<div class="monitor-card">
+<div class="light-wave"></div>  
+<h2>📍 Live Location</h2>
+<p id="liveLocation">Loading...</p>
+<p id="locationTemp">36°C | Humidity 72%</p>
+</div>
+
+</section>
+<!-- ================= SATELLITE MAP SECTION ================= -->
+
+<section class="satellite-section">
+
+<h1 class="section-title">
+🛰 Live <span>Satellite Map</span>
+</h1>
+
+<p class="section-subtitle">
+Real-time climate and environmental satellite monitoring.
+</p>
+
+<div class="map-wrapper">
+
+<div id="satelliteMap"></div>
+
+</div>
+
+</section>
+<!-- STATUS -->
+
+<div class="live-status">
+
+<div class="status-box">
+
+<h2>🌍 Earth Health Meter</h2>
+
+<div class="progress-bar">
+<div class="progress-fill" id="earthBar"></div>
+</div>
+
+<p id="earthText">0%</p>
+
+</div>
+
+<div class="status-box">
+
+<h2>⚡ Renewable Energy Usage</h2>
+
+<div class="progress-bar">
+<div class="progress-fill" id="energyBar"></div>
+</div>
+
+<p id="energyText">0%</p>
+
+</div>
+
+</div>
+
+
+<!-- NEWS -->
+
+<div class="news-section">
+
+<h1>📰 Climate AI Live News</h1>
+
+<div class="news-container">
+
+<div class="news-card">
+<h2>🌡 Heatwave Alert</h2>
+<p>Extreme Indian summer temperatures rising above 40°C.</p>
+</div>
+
+<div class="news-card">
+<h2>🌳 Forest Recovery</h2>
+<p>AI detected 12% increase in green coverage this year.</p>
+</div>
+
+<div class="news-card">
+<h2>⚠ Pollution Warning</h2>
+<p>Air quality becoming hazardous in industrial regions.</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- GLOBAL IMPACT -->
+
+<div class="global-impact" id="global">
+
+<h1>🌍 Global Climate Impact</h1>
+
+<p class="impact-subtitle">
+Real-Time AI Environmental Monitoring Across The World
+</p>
+
+<div class="impact-grid">
+
+<div class="impact-card">
+
+<h2>🌡 Global Temperature Rise</h2>
+
+<div class="impact-number" id="globalTemp">
++1.5°C
+</div>
+
+<p>
+Earth temperature continuously monitored using AI systems.
+</p>
+
+</div>
+
+<div class="impact-card">
+
+<h2>🌳 Trees Planted</h2>
+
+<div class="impact-number" id="globalTrees">
+0
+</div>
+
+<p>
+Global plantation initiatives improving sustainability.
+</p>
+
+</div>
+
+<div class="impact-card">
+
+<h2>🏭 Carbon Emission</h2>
+
+<div class="impact-number" id="carbonLevel">
+420 ppm
+</div>
+
+<p>
+Carbon emissions tracked using smart climate sensors.
+</p>
+
+</div>
+
+<div class="impact-card">
+
+<h2>⚡ Renewable Energy</h2>
+
+<div class="impact-number" id="renewableEnergy">
+65%
+</div>
+
+<p>
+Renewable energy adoption increasing worldwide.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CLOCK -->
+
+<div class="clock-container">
+
+<h1>🕒 Live Indian Time</h1>
+
+<div id="clock"></div>
+
+</div>
+
+<!-- CONTACT -->
+
+<div class="contact-section" id="contact">
+
+<h1>📞 Contact ClimateAI</h1>
+
+<p class="contact-subtitle">
+Connect With Our Climate Intelligence Team
+</p>
+
+<div class="contact-container">
+
+<div class="contact-info">
+
+<div class="contact-box">
+
+<i class="fa-solid fa-location-dot"></i>
+
+<h2>Location</h2>
+
+<p>Kolkata, India</p>
+
+</div>
+
+<div class="contact-box">
+
+<i class="fa-solid fa-envelope"></i>
+
+<h2>Email</h2>
+
+<p>climateai@gmail.com</p>
+
+</div>
+
+<div class="contact-box">
+
+<i class="fa-solid fa-phone"></i>
+
+<h2>Phone</h2>
+
+<p>+91 9876543210</p>
+
+</div>
+
+</div>
+
+<!-- FORM -->
+
+<div class="contact-form">
+
+<input
+type="text"
+id="name"
+placeholder="Enter Your Name">
+
+<input
+type="email"
+id="email"
+placeholder="Enter Your Email">
+
+<textarea
+id="message"
+placeholder="Write Your Message"></textarea>
+
+<button onclick="sendContact()">
+Send Message
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+<p>
+© 2026 ClimateAI Dashboard | Designed With Advanced UI
+</p>
+
+</footer>
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+/* ================= WELCOME ================= */
+
+function showWelcome(){
+
+    alert("🌍 Welcome To ClimateAI Dashboard");
+
+}
+
+
+/* ================= ANALYZE AREA ================= */
+
+function generateClimateData(){
+
+    const locationInput = document.getElementById("locationInput").value;
+
+    if(locationInput.trim() === ""){
+        alert("⚠ Please Enter Area Name");
+        return;
+    }
+
+    // Convert input to lowercase to easily match region names
+    const location = locationInput.toLowerCase();
+
+    // Define cold and hot areas in India
+    const coldAreas = ["shimla", "manali", "lahual","kanchanjunga","kashmir", "ladakh", "leh", "kargil"];
+    const hotAreas = ["rajasthan", "delhi", "Mumbai", "chennai", "kerala", "jaipur", "jodhpur", "ahmedabad", "hyderabad", "lucknow", "nagpur", "agra", "kanpur", "kolkata"];
+    const midAreas = [ "kerala", "srinagar", "darjeeling", "gangtok", "nainital", "mussoorie", "kargil"];
+    // Default temperature range (if the area is not in the lists above)
+    let minTemp = 30;
+    let maxTemp = 34;
+
+    // Check region and set temperature ranges
+    if (coldAreas.some(area => location.includes(area))) {
+        // Cold area: 8°C to 14°C
+        minTemp = 7;
+        maxTemp = 11;
+    } else if (hotAreas.some(area => location.includes(area))) {
+        // Hot area: 31°C to 36°C
+        minTemp = 30;
+        maxTemp = 35;
+    }
+     else if (midAreas.some(area => location.includes(area))) {
+        // mid area: 19°C to 24°C
+        minTemp = 20;
+        maxTemp = 24;
+    }
+
+    // Generate a random temperature within the chosen range
+    const temperature = Math.floor(Math.random() * (maxTemp - minTemp + 1)) + minTemp;
+
+    // Fixed Air Quality List (added "GOOD" to prevent undefined errors)
+    const airQualityList = ["GOOD", "MODERATE", "POOR"];
+    const biodiversityList = ["LOW", "MEDIUM", "HIGH"];
+
+    document.getElementById("temp").innerHTML = temperature + " °C";
+
+    document.getElementById("aqi").innerHTML = airQualityList[Math.floor(Math.random()*3)];
+
+    document.getElementById("trees").innerHTML = Math.floor(Math.random()*100000);
+
+    document.getElementById("rainfall").innerHTML = Math.floor(Math.random()*200) + " mm";
+
+    document.getElementById("humidity").innerHTML = Math.floor(Math.random()*60)+30 + " %";
+
+    document.getElementById("bio").innerHTML = biodiversityList[Math.floor(Math.random()*3)];
+
+    document.getElementById("extraData").innerHTML =
+
+    `
+    <div class="extra-card">
+    <h2>📍 Area</h2>
+    <p>${locationInput}</p>
+    </div>
+
+    <div class="extra-card">
+    <h2>🌫 Pollution Index</h2>
+    <p>${Math.floor(Math.random()*500)} AQI</p>
+    </div>
+
+    <div class="extra-card">
+    <h2>🏭 Carbon Emission</h2>
+    <p>${Math.floor(Math.random()*400)} ppm</p>
+    </div>
+
+    <div class="extra-card">
+    <h2>☀ UV Index</h2>
+    <p>${Math.floor(Math.random()*12)}</p>
+    </div>
+    `;
+
+}
+
+/* ================= FEATURES ================= */
+
+function ecoTips(){
+
+    const tips = [
+
+        "🌱 Plant more trees.",
+        "🚲 Use bicycles.",
+        "💡 Save electricity.",
+        "♻ Recycle plastic.",
+        "🚰 Save water."
+
+    ];
+
+    alert(
+    tips[Math.floor(Math.random()*tips.length)]
+    );
+
+}
+
+function pollutionAlert(){
+
+    alert("🚨 Pollution Level Increasing");
+
+}
+
+function waterConservation(){
+
+    alert("💧 Save Water By Rainwater Harvesting");
+
+}
+
+function energyUsage(){
+
+    alert("⚡ Solar Energy Recommended");
+
+}
+
+function wildlifeDetection(){
+
+    alert("🐦 Wildlife Activity Detected");
+
+}
+
+function greenScore(){
+
+    const score =
+    Math.floor(Math.random()*100);
+
+    alert("📊 Green Score : " + score + "/100");
+
+}
+
+/* ================= LIVE LOCATION ================= */
+
+function getLiveLocationClimate(){
+
+    if(navigator.geolocation){
+
+        alert("📡 Detecting Live Location...");
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(position){
+
+                const latitude = position.coords.latitude;
+
+                const longitude = position.coords.longitude;
+
+                // Set temperature to a constant 34 degrees Celsius
+                const temp = 33;
+
+                const air = ["MODERATE","POOR"];
+
+                const aqi = air[Math.floor(Math.random()*3)];
+
+                const trees = Math.floor(Math.random()*100);
+
+                const rain = Math.floor(Math.random()*250);
+
+                const hum = Math.floor(Math.random()*60)+30;
+
+                const bio = ["LOW","MEDIUM","HIGH"];
+
+                const biodiversity = bio[Math.floor(Math.random()*3)];
+
+                const wind = Math.floor(Math.random()*40)+5;
+
+                document.getElementById("temp").innerHTML = temp + " °C";
+
+                document.getElementById("aqi").innerHTML = aqi;
+
+                document.getElementById("trees").innerHTML = trees;
+
+                document.getElementById("rainfall").innerHTML = rain + " mm";
+
+                document.getElementById("humidity").innerHTML = hum + " %";
+
+                document.getElementById("bio").innerHTML = biodiversity;
+
+                document.getElementById("extraData").innerHTML =
+
+                `
+                <div class="extra-card">
+                <h2>📍 Coordinates</h2>
+                <p>
+                ${latitude.toFixed(4)},
+                ${longitude.toFixed(4)}
+                </p>
+                </div>
+
+                <div class="extra-card">
+                <h2>💨 Wind Speed</h2>
+                <p>${wind} km/h</p>
+                </div>
+
+                <div class="extra-card">
+                <h2>🌳 Green Coverage</h2>
+                <p>${trees} Trees</p>
+                </div>
+
+                <div class="extra-card">
+                <h2>🤖 AI Recommendation</h2>
+                <p>
+                Increase tree plantation
+                and reduce pollution.
+                </p>
+                </div>
+                `;
+
+            },
+
+            function(){
+
+                alert("❌ Unable To Access Location");
+
+            }
+
+        );
+
+    }
+
+    else{
+
+        alert("❌ Geolocation Not Supported");
+
+    }
+
+}
+/* ================= AI SUGGESTION ================= */
+
+function getSuggestion(aqi,bio){
+
+    if(aqi === "POOR"){
+
+        return "Reduce traffic pollution immediately.";
+
+    }
+
+    else if(bio === "LOW"){
+
+        return "Increase green zones and plantation.";
+
+    }
+
+    else{
+
+        return "Environmental condition stable.";
+
+    }
+
+}
+/* ================= EXTRA FEATURES ================= */
+
+function ecoTips(){
+
+    const tips = [
+
+        "🌱 Plant more trees.",
+        "🚲 Use bicycles.",
+        "💡 Save electricity.",
+        "♻ Recycle plastic.",
+        "🚰 Save water."
+
+    ];
+
+    alert(
+    tips[Math.floor(Math.random()*tips.length)]
+    );
+
+}
+
+function pollutionAlert(){
+
+    alert("🚨 Pollution Level Increasing");
+
+}
+
+function waterConservation(){
+
+    alert("💧 Save Water By Rainwater Harvesting");
+
+}
+
+function energyUsage(){
+
+    alert("⚡ Solar Energy Recommended");
+
+}
+
+function wildlifeDetection(){
+
+    alert("🐦 Wildlife Activity Detected");
+
+}
+
+function greenScore(){
+
+    const score =
+    Math.floor(Math.random()*100);
+
+    alert("📊 Green Score : " + score + "/100");
+
+}
+
+/* ================= STATUS BAR ================= */
+
+function animateBars(){
+
+    const earth =
+    Math.floor(Math.random()*40)+60;
+
+    const energy =
+    Math.floor(Math.random()*50)+40;
+
+    document.getElementById("earthBar").style.width =
+    earth + "%";
+
+    document.getElementById("energyBar").style.width =
+    energy + "%";
+
+    document.getElementById("earthText").innerHTML =
+    earth + "%";
+
+    document.getElementById("energyText").innerHTML =
+    energy + "%";
+
+}
+
+animateBars();
+
+/* ================= CLOCK ================= */
+
+function updateClock(){
+
+    const now = new Date();
+
+    document.getElementById("clock").innerHTML =
+    now.toLocaleTimeString("en-IN");
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+/* ================= CHATBOT ================= */
+
+const chatWindow = document.getElementById('chatWindow');
+const input = document.getElementById('input');
+let listening = false;
+
+function addMessage(text, type='bot'){
+  const msg = document.createElement('div');
+  msg.className = `message ${type}`;
+  msg.innerHTML = type === 'bot'
+    ? `<div class="msg-tag">AI</div>${text}`
+    : `<div class="msg-tag">You</div>${text}`;
+  chatWindow.appendChild(msg);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+  return msg;
+}
+
+function showTyping(){
+  const wrap = document.createElement('div');
+  wrap.className = 'message bot';
+  wrap.id = 'typingBubble';
+  wrap.innerHTML = `<div class="msg-tag">AI</div><div class="typing"><span></span><span></span><span></span></div>`;
+  chatWindow.appendChild(wrap);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+function hideTyping(){
+  const t = document.getElementById('typingBubble');
+  if(t) t.remove();
+}
+
+function botReply(userText){
+  const t = userText.toLowerCase();
+  addMessage("Analyzing your climate question...", "bot");
+setTimeout(() => {
+  hideTyping();
+  addMessage(botReply(text), "bot");
+}, 700);
+  if (t.includes('weather')) return 'Weather panel updated: warm, humid, and slightly windy.';
+  if (t.includes('climate')) return 'Climate alerts are active. Heat advisory is the main concern.';
+  if (t.includes('satellite')) return 'Satellite feed is simulated locally. Low-orbit pass is scheduled at 18:40 IST.';
+  if (t.includes('earthquake') || t.includes('quake')) return 'Earthquake monitor shows no significant activity nearby.';
+  if (t.includes('recommend')) return 'Use subtle motion, high contrast text, and neon only for accents.';
+
+  if (t.includes("climate") || t.includes("global warming")) {
+    return "Climate is a long term predictable pattern of weather. change means long-term shifts in temperature and weather patterns. Main causes include greenhouse gas emissions from human activities.";
+  }
+
+  if (t.includes("heatwave") || t.includes("hot")) {
+    return "A heatwave is a prolonged period of unusually high temperature. Stay hydrated, avoid direct sun, and reduce outdoor activity.";
+  }
+
+  if (t.includes("rain") || t.includes("rainfall") || t.includes("monsoon")) {
+    return "Rainfall is the water falling from clouds. Monsoon brings seasonal rain that can help farming but may also cause flooding.";
+  }
+
+  if (t.includes("flood")) {
+    return "Flooding happens when water covers land that is normally dry. It can be caused by heavy rain, rivers overflowing, or poor drainage.";
+  }
+
+  if (t.includes("drought")) {
+    return "Drought is a long dry period with very little rain. It can affect crops, water supply, and soil health.";
+  }
+
+  if (t.includes("cyclone")) {
+    return "A cyclone is a powerful storm with strong winds and heavy rain. If one is near, stay indoors and follow safety alerts.";
+  }
+
+  if (t.includes("pollution") || t.includes("air quality")) {
+    return "Air pollution can harm health and reduce visibility. Planting trees, using clean transport, and reducing smoke can help.";
+  }
+
+  if (t.includes("earthquake")) {
+    return "Earthquakes happen when the ground suddenly shakes due to movement in the Earth’s crust. Drop, cover, and hold during shaking.";
+  }
+
+  if (t.includes("temperature")) {
+    return "Temperature tells how hot or cold the air is. Higher temperatures are often linked to climate stress and heat risk.";
+  }
+
+  if (t.includes("help") || t.includes("what can you do")) {
+    return "I can answer basic climate, weather, pollution, flood, drought, cyclone, and earthquake questions in a simple way.";
+  }
+  
+  return "I have a limited climate knowledge base, but I can answer topics like climate change, heatwave, flood, drought, cyclone, rainfall, pollution, and temperature.";
+}
+function sendMessage(){
+  const text = input.value.trim();
+  if(!text) return;
+  addMessage(text, 'user');
+  input.value = '';
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    addMessage(botReply(text), 'bot');
+  }, 900);
+}
+
+function addPreset(text){
+  input.value = text;
+  sendMessage();
+}
+
+function clearChat(){
+  chatWindow.innerHTML = `
+    <div class="message bot"><div class="msg-tag">System</div>Chat cleared. Ready for a new interaction.</div>
+  `;
+}
+
+function toggleCollapse(){
+  document.body.classList.toggle('collapsed');
+}
+
+function toggleFullscreen(){
+  document.body.classList.toggle('fullscreen');
+}
+// Theme toggle
+function toggleTheme(){
+  document.body.classList.toggle("light-theme");
+  localStorage.setItem("theme", document.body.classList.contains("light-theme") ? "light" : "dark");
+}
+
+// Load saved theme
+if(localStorage.getItem("theme")==="light"){
+  document.body.classList.add("light-theme");
+}
+
+// New Chat
+function newChat(){
+  chatWindow.innerHTML = `
+    <div class="message bot">
+      <div class="msg-tag">System</div>
+      New chat started. Ready for your next question about climate, weather, or safety.
+    </div>
+  `;
+}
+
+// Export Chat
+function exportChat(){
+  let text = "";
+  chatWindow.querySelectorAll(".message").forEach(msg => {
+    const tag = msg.querySelector(".msg-tag")?.textContent || "";
+    const reply = msg.textContent.replace(tag, "").trim();
+    text += `[${tag}] ${reply}\n`;
+  });
+
+  const blob = new Blob([text], {type:"text/plain"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "chat-export.txt";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Share Chat
+function shareChat(){
+  let text = "";
+  chatWindow.querySelectorAll(".message").forEach(msg => {
+    const tag = msg.querySelector(".msg-tag")?.textContent || "";
+    const reply = msg.textContent.replace(tag, "").trim();
+    text += `${tag}: ${reply}\n`;
+  });
+
+  if(navigator.share){
+    navigator.share({
+      title: "Climate AI Chat",
+      text: text,
+    }).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text);
+    addMessage("Chat copied to clipboard!", "bot");
+  }
+}
+
+// Fullscreen
+function toggleFullscreen(){
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+// Settings
+let settingsOpen = false;
+function toggleSettings(){
+  settingsOpen = !settingsOpen;
+  const btn = document.querySelector("button[onclick='toggleSettings()']");
+  btn.classList.toggle("active", settingsOpen);
+  
+  if(settingsOpen){
+    addMessage("Settings panel opened. Change theme, speed, and notifications here.", "bot");
+  }
+}
+
+// Notifications
+let notificationsOn = false;
+function toggleNotifications(){
+  notificationsOn = !notificationsOn;
+  const btn = document.querySelector("button[onclick='toggleNotifications()']");
+  btn.classList.toggle("active", notificationsOn);
+  
+  if(notificationsOn){
+    addMessage("Notifications enabled. You'll receive alerts for important climate updates.", "bot");
+  } else {
+    addMessage("Notifications disabled.", "bot");
+  }
+}
+
+// AI Fast Mode
+let aiFastMode = false;
+function toggleAIFast(){
+  aiFastMode = !aiFastMode;
+  const btn = document.querySelector("button[onclick='toggleAIFast()']");
+  btn.classList.toggle("active", aiFastMode);
+  
+  if(aiFastMode){
+    addMessage("AI Fast Mode ON. Responses will be faster.", "bot");
+  } else {
+    addMessage("AI Fast Mode OFF. Normal response speed.", "bot");
+  }
+}
+
+function toggleVoice(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    addMessage('Voice recognition is not supported in this browser.', 'bot');
+    return;
+  }
+  if(listening) return;
+  const rec = new SR();
+  rec.lang = 'en-US';
+  rec.interimResults = false;
+  rec.maxAlternatives = 1;
+  listening = true;
+  addMessage('Listening...', 'bot');
+  rec.onresult = e => {
+    input.value = e.results[0][0].transcript;
+    sendMessage();
+  };
+  rec.onend = () => listening = false;
+  rec.onerror = () => {
+    listening = false;
+    addMessage('Voice input stopped.', 'bot');
+  };
+  rec.start();
+}
+
+input.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') sendMessage();
+});
+
+/* ================= GLOBAL IMPACT ================= */
+
+function updateGlobalImpact(){
+
+    document.getElementById("globalTrees").innerHTML =
+    (Math.floor(Math.random()*9000000)+1000000).toLocaleString();
+
+    document.getElementById("carbonLevel").innerHTML =
+    Math.floor(Math.random()*100+350) + " ppm";
+
+    document.getElementById("renewableEnergy").innerHTML =
+    Math.floor(Math.random()*40+50) + "%";
+
+    document.getElementById("globalTemp").innerHTML =
+    "+" + (Math.random()*2+1).toFixed(1) + "°C";
+
+}
+
+setInterval(updateGlobalImpact,3000);
+
+updateGlobalImpact();
+
+/* ================= CONTACT ================= */
+
+function sendContact(){
+
+    const name =
+    document.getElementById("name").value;
+
+    const email =
+    document.getElementById("email").value;
+
+    const message =
+    document.getElementById("message").value;
+
+    if(name === "" || email === "" || message === ""){
+
+        alert("⚠ Please Fill All Fields");
+        return;
+
+    }
+
+    alert(
+    "✅ Message Sent Successfully!\n\nThank You " + name
+    );
+
+    document.getElementById("name").value = "";
+
+    document.getElementById("email").value = "";
+
+    document.getElementById("message").value = "";
+
+}
+
+/* ================= TYPING EFFECT ================= */
+
+const texts = [
+    "Greener",
+    "Smarter",
+    "Sustainable",
+    "Cleaner"
+];
+
+let count = 0;
+let index = 0;
+let currentText = "";
+let letter = "";
+
+(function type(){
+
+    if(count === texts.length){
+        count = 0;
+    }
+
+    currentText = texts[count];
+    letter = currentText.slice(0, ++index);
+
+    document.querySelector(".typing").textContent = letter;
+
+    if(letter.length === currentText.length){
+
+        count++;
+        index = 0;
+
+        setTimeout(type,1000);
+
+    }
+
+    else{
+
+        setTimeout(type,120);
+
+    }
+
+})();
+
+/* ================= NAVBAR SCROLL EFFECT ================= */
+
+window.addEventListener("scroll",()=>{
+
+    const navbar =
+    document.getElementById("navbar");
+
+    if(window.scrollY > 50){
+
+        navbar.style.background =
+        "rgba(0,0,0,0.7)";
+
+    }
+
+    else{
+
+        navbar.style.background =
+        "rgba(0,0,0,0.25)";
+
+    }
+
+});
+
+/* ================= LIVE WEATHER API ================= */
+
+/*
+GET FREE API:
+https://openweathermap.org/api
+
+Replace YOUR_API_KEY below
+*/
+
+async function getLiveClimate(){
+
+    const apiKey = "YOUR_API_KEY";
+
+    const city = "Kolkata";
+
+    const url =
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    try{
+
+        const response =
+        await fetch(url);
+
+        const data =
+        await response.json();
+
+        document.getElementById("liveTemp").innerHTML =
+        Math.floor(data.main.temp) + "°C";
+
+        document.getElementById("liveAQI").innerHTML =
+        data.weather[0].main;
+
+        document.getElementById("liveWind").innerHTML =
+        data.wind.speed + " km/h";
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+getLiveClimate();
+
+/* ================= SCROLL REVEAL ================= */
+
+const revealElements =
+document.querySelectorAll(
+'.card,.stat-card,.impact-card,.news-card,.contact-box'
+);
+
+window.addEventListener('scroll',()=>{
+
+    revealElements.forEach(el=>{
+
+        const top =
+        el.getBoundingClientRect().top;
+
+        if(top < window.innerHeight - 100){
+
+            el.style.opacity = "1";
+            el.style.transform = "translateY(0px)";
+
+        }
+
+    });
+
+});
+
+revealElements.forEach(el=>{
+
+    el.style.opacity = "0";
+    el.style.transform = "translateY(40px)";
+    el.style.transition = "1s";
+
+});
+
+
+</script>
+<!-- LEAFLET JS -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+/* ================= CREATE MAP ================= */
+
+const map = L.map('satelliteMap').setView(
+    [22.5726, 88.3639],
+    5
+);
+
+/* ================= SATELLITE LAYER ================= */
+
+L.tileLayer(
+'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+{
+    attribution:'Tiles © Esri'
+}
+).addTo(map);
+
+/* ================= MARKER ================= */
+
+L.marker([22.5726, 88.3639])
+.addTo(map)
+.bindPopup("🌍 ClimateAI Monitoring Center")
+.openPopup();
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+
+// ================= SCENE =================
+
+const scene = new THREE.Scene();
+
+
+// ================= CAMERA =================
+
+const camera = new THREE.PerspectiveCamera(
+    60,
+    window.innerWidth/window.innerHeight,
+    0.1,
+    1000
+);
+
+camera.position.z = 12;
+
+
+// ================= RENDERER =================
+
+const renderer = new THREE.WebGLRenderer({
+    antialias:true,
+    alpha:true
+});
+
+renderer.setPixelRatio(window.devicePixelRatio);
+
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
+
+document.getElementById("earth-container")
+.appendChild(renderer.domElement);
+
+
+
+// ================= TEXTURES =================
+
+const loader = new THREE.TextureLoader();
+
+const earthTexture = loader.load(
+'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg'
+);
+
+const bumpTexture = loader.load(
+'https://threejs.org/examples/textures/planets/earth_normal_2048.jpg'
+);
+
+const specTexture = loader.load(
+'https://threejs.org/examples/textures/planets/earth_specular_2048.jpg'
+);
+
+
+
+
+</script>
+<script>
+
+/* ================= LIVE CHANGING LOCATIONS ================= */
+
+const rainfallPlaces = [
+    "Mumbai - Monsoon Active",
+    "(mawsynram and cherrapunji)Meghalaya - Thunderstorm",
+    "(agumbe)karnataka - Rainfall Alert",
+    "Kolkata - Heavy Rain",
+    "Delhi - Cloud Burst"
+];
+
+const cyclonePlaces = [
+    "Bay Of Bengal",
+    "Andaman Sea",
+    "Odisha Coast",
+    "Chennai Coast",
+    "Arabian Sea"
+];
+
+const quakePlaces = [
+    "Nepal Border",
+    "Japan Region",
+    "Indonesia Zone",
+    "Himalayan Belt",
+    "Turkey Region"
+];
+
+const wildlifePlaces = [
+    "Sundarbans Tiger",
+    "Kaziranga Rhino",
+    "Amazon Wildlife",
+    "Gir Lion Zone",
+    "Arctic Polar Region"
+];
+
+const floodPlaces = [
+    "Bihar Flood Risk",
+    "Assam River Overflow",
+    "Bangladesh Delta",
+    "Kerala Water Rise",
+    "Jakarta Flood Zone"
+];
+
+const hottestPlaces = [
+    "Rajasthan 45°C",
+    "Dubai 47°C",
+    "Delhi Heatwave",
+    "Sahara Desert",
+    "Arizona Desert"
+];
+
+const pollutionPlaces = [
+    "Delhi AQI 204",
+    "Beijing AQI 390",
+    "Mumbai Industrial Belt",
+    "Dhaka Pollution",
+    "Lahore Smog Alert"
+];
+
+const liveLocations = [
+    "ISRO Satellite Above India",
+    "Tracking Bay Of Bengal",
+    "Monitoring Himalayan Region",
+    "Scanning Indian Ocean",
+    "Watching Arctic Ice"
+];
+
+/* ================= AUTO CHANGE ================= */
+
+function randomItem(arr){
+
+    return arr[
+        Math.floor(Math.random()*arr.length)
+    ];
+
+}
+
+function updateMonitoring(){
+
+    document.getElementById("rainPlace").innerHTML =
+    randomItem(rainfallPlaces);
+     document.getElementById("rainAmount").innerHTML =
+    Math.floor(Math.random()*100+80)
+    + " mm - " +
+    Math.floor(Math.random()*200+250)
+    + " mm";
+
+
+    document.getElementById("cyclonePlace").innerHTML =
+    randomItem(cyclonePlaces);
+  document.getElementById("cycloneSpeed").innerHTML =
+    Math.floor(Math.random()*100+80)
+    + " km/h";
+
+
+    document.getElementById("quakePlace").innerHTML =
+    randomItem(quakePlaces);
+     document.getElementById("earthquakePower").innerHTML =
+    (Math.random()*5+2).toFixed(1)
+    + " PSI";
+
+    document.getElementById("wildPlace").innerHTML =
+    randomItem(wildlifePlaces);
+     document.getElementById("wildlifeCount").innerHTML =
+    "Population : "
+    + Math.floor(Math.random()*50+5);
+
+    document.getElementById("floodPlace").innerHTML =
+    randomItem(floodPlaces);
+
+
+    document.getElementById("hotPlace").innerHTML =
+    randomItem(hottestPlaces);
+
+    document.getElementById("pollutionPlace").innerHTML =
+    randomItem(pollutionPlaces);
+
+    document.getElementById("liveLocation").innerHTML =
+    randomItem(liveLocations);
+       document.getElementById("locationTemp").innerHTML =
+    Math.floor(Math.random()*10+28)
+    + "°C | Humidity "
+    + Math.floor(Math.random()*40+40)
+    + "%";
+
+}
+
+setInterval(updateMonitoring,2000);
+
+updateMonitoring();
+
+/* ================= live OCEAN TRACKING DATA ================= */
+const oceanData = {
+  pacific: {
+    name: "Pacific Ocean",
+    status: "Largest ocean on Earth, monitored for strong currents and major wave systems.",
+    waveHeight: [1.2, 5.8],
+    temp: [12.5, 28.6],
+    currentSpeed: [3, 32],
+    salinity: [32.0, 35.5],
+    seaSurface: ["Calm", "Moderate", "Rough", "Turbulent"],
+    stormIndex: [12, 88]
+  },
+  atlantic: {
+    name: "Atlantic Ocean",
+    status: "Known for fast-moving weather systems and variable sea states.",
+    waveHeight: [0.8, 4.9],
+    temp: [8.1, 26.2],
+    currentSpeed: [4, 28],
+    salinity: [33.0, 37.0],
+    seaSurface: ["Calm", "Wavy", "Storm Belt", "Choppy"],
+    stormIndex: [10, 80]
+  },
+  indian: {
+    name: "Indian Ocean",
+    status: "Warm tropical basin with strong monsoon influence and seasonal current shifts.",
+    waveHeight: [0.9, 6.1],
+    temp: [18.2, 30.4],
+    currentSpeed: [2, 26],
+    salinity: [34.0, 36.8],
+    seaSurface: ["Calm", "Monsoon Swell", "Active", "Windy"],
+    stormIndex: [14, 86]
+  },
+  southern: {
+    name: "Southern Ocean",
+    status: "Powerful westerly-driven waters with cold fronts and high swell activity.",
+    waveHeight: [2.0, 9.5],
+    temp: [-2.2, 9.4],
+    currentSpeed: [8, 40],
+    salinity: [33.5, 35.8],
+    seaSurface: ["Freezing", "Heavy Swell", "Polar Rough", "Icy"],
+    stormIndex: [22, 95]
+  },
+  arctic: {
+    name: "Arctic Ocean",
+    status: "Cold, ice-rich waters with rapidly changing surface conditions.",
+    waveHeight: [0.2, 2.8],
+    temp: [-2.0, 6.3],
+    currentSpeed: [1, 14],
+    salinity: [30.0, 34.5],
+    seaSurface: ["Ice Covered", "Calm", "Broken Ice", "Cold Drift"],
+    stormIndex: [5, 48]
+  }
+};
+
+let activeOceanKey = "pacific";
+
+function rand(min, max) {
+  return +(Math.random() * (max - min) + min).toFixed(1);
+}
+
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function renderOceanTabs() {
+  const tabs = document.getElementById("oceanTabs");
+  tabs.innerHTML = Object.keys(oceanData).map(key => `
+    <button class="ocean-tab ${key === activeOceanKey ? "active" : ""}" onclick="setOcean('${key}')">
+      ${oceanData[key].name}
+    </button>
+  `).join("");
+}
+
+function setOcean(key) {
+  activeOceanKey = key;
+  document.getElementById("oceanSearch").value = oceanData[key].name;
+  renderOceanTabs();
+  updateOceanUI();
+  document.querySelectorAll('.ocean-card, .ocean-main-card, .ocean-radar').forEach(el => {
+  el.style.animation = 'none';
+  void el.offsetWidth;
+  el.style.animation = '';
+});
+}
+
+function searchOcean() {
+  const value = document.getElementById("oceanSearch").value.trim().toLowerCase();
+  const key = Object.keys(oceanData).find(k => oceanData[k].name.toLowerCase().includes(value) || k.includes(value));
+  if (key) setOcean(key);
+}
+
+function flash(el) {
+  el.classList.remove("flash");
+  void el.offsetWidth;
+  el.classList.add("flash");
+  setTimeout(() => el.classList.remove("flash"), 500);
+}
+
+function updateOceanUI() {
+  const ocean = oceanData[activeOceanKey];
+  document.getElementById("activeOceanName").textContent = ocean.name;
+  document.getElementById("activeOceanStatus").textContent = ocean.status;
+
+  const waveHeight = rand(ocean.waveHeight[0], ocean.waveHeight[1]);
+  const oceanTemp = rand(ocean.temp[0], ocean.temp[1]);
+  const currentSpeed = randInt(ocean.currentSpeed[0], ocean.currentSpeed[1]);
+  const salinity = rand(ocean.salinity[0], ocean.salinity[1]);
+  const seaSurface = ocean.seaSurface[randInt(0, ocean.seaSurface.length - 1)];
+  const stormIndex = randInt(ocean.stormIndex[0], ocean.stormIndex[1]);
+
+  const values = [
+    ["waveHeight", `${waveHeight} m`],
+    ["oceanTemp", `${oceanTemp} °C`],
+    ["currentSpeed", `${currentSpeed} km/h`],
+    ["salinity", `${salinity} ppt`],
+    ["seaSurface", seaSurface],
+    ["stormIndex", `${stormIndex}/100`]
+  ];
+
+  values.forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = value;
+      flash(el);
+    }
+  });
+}
+
+renderOceanTabs();
+updateOceanUI();
+setInterval(updateOceanUI, 2000);
+
+document.getElementById("oceanSearch").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") searchOcean();
+});
+
+/* ================= ISRO SATELLITE ================= */
+
+const satelliteGeometry =
+new THREE.BoxGeometry(0.6,0.6,1.8);
+
+const satelliteMaterial =
+new THREE.MeshStandardMaterial({
+
+    color:0xcccccc,
+    metalness:1,
+    roughness:0.2
+
+});
+
+const satellite =
+new THREE.Mesh(
+    satelliteGeometry,
+    satelliteMaterial
+);
+
+scene.add(satellite);
+
+/* SOLAR PANELS */
+
+const panelGeometry =
+new THREE.BoxGeometry(2,0.1,0.8);
+
+const panelMaterial =
+new THREE.MeshStandardMaterial({
+
+    color:0x0044ff,
+    emissive:0x0022ff
+
+});
+
+const panelLeft =
+new THREE.Mesh(
+    panelGeometry,
+    panelMaterial
+);
+
+panelLeft.position.x = -1.6;
+
+satellite.add(panelLeft);
+
+const panelRight =
+new THREE.Mesh(
+    panelGeometry,
+    panelMaterial
+);
+
+panelRight.position.x = 1.6;
+
+satellite.add(panelRight);
+
+/* SATELLITE LIGHT */
+
+const satLight =
+new THREE.PointLight(
+    0x00ffff,
+    2,
+    20
+);
+
+satellite.add(satLight); 
+/* ================= AURORA PARTICLES ================= */
+
+const auroraGeometry =
+new THREE.BufferGeometry();
+
+const auroraVertices = [];
+
+for(let i=0;i<2000;i++){
+
+    auroraVertices.push(
+
+        (Math.random()-0.5)*120,
+
+        Math.random()*30 + 10,
+
+        (Math.random()-0.5)*120
+
+    );
+
+}
+
+auroraGeometry.setAttribute(
+
+    'position',
+
+    new THREE.Float32BufferAttribute(
+        auroraVertices,
+        3
+    )
+
+);
+
+const auroraMaterial =
+new THREE.PointsMaterial({
+
+    color:0x00ffcc,
+
+    size:0.6,
+
+    transparent:true,
+
+    opacity:0.7
+
+});
+
+const auroraParticles =
+new THREE.Points(
+    auroraGeometry,
+    auroraMaterial
+);
+
+scene.add(auroraParticles);
+
+/* ================= ANIMATION LOOP ================= */
+
+function animate(){
+
+    requestAnimationFrame(animate);
+
+    earth.rotation.y += 0.0015;
+
+    clouds.rotation.y += 0.0018;
+
+    atmosphere.rotation.y += 0.0008;
+
+    stars.rotation.y += 0.0002;
+
+    particles.rotation.y += 0.0005;
+
+    /* SATELLITE ORBIT */
+
+    const time = Date.now() * 0.001;
+
+    satellite.position.x =
+    Math.cos(time) * 10;
+
+    satellite.position.z =
+    Math.sin(time) * 10;
+
+    satellite.position.y =
+    Math.sin(time*2) * 2;
+
+    satellite.lookAt(earth.position);
+
+    renderer.render(scene,camera);
+    auroraParticles.rotation.y += 0.0003;
+
+auroraParticles.position.x =
+Math.sin(Date.now()*0.0002) * 3;
+
+auroraParticles.material.opacity =
+0.5 + Math.sin(Date.now()*0.001) * 0.2;
+
+}
+
+animate();
+
+/* ================= RESPONSIVE ================= */
+
+window.addEventListener(
+    'resize',
+    ()=>{
+
+        camera.aspect =
+        window.innerWidth/window.innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+
+    }
+    
+);
+
+
+</script>
+</body>
+</html>
